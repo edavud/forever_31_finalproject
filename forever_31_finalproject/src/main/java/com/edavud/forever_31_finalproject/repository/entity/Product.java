@@ -1,9 +1,6 @@
 package com.edavud.forever_31_finalproject.repository.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Product {
@@ -11,12 +8,13 @@ public class Product {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
+    @Column(name = "name")
     private String name;
-
+    @Column(name = "description")
     private String description;
-
+    @Column(name = "imgUrl")
     private String imgUrl;
-
+    @Column(name = "createdAt")
     private String createdAt;
 
 

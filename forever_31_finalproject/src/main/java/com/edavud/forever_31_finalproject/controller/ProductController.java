@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -19,14 +20,19 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/product/all")
+    @GetMapping("/all")
     public List<Product> getProducts(){
         return productService.all();
     }
 
     @PostMapping
     public Product save(@RequestBody ProductDto productDto) {
-        return productService.save(new Product(productDto));
+        Product product = new Product();
+        product.setName( productDto.getName() );
+        product.setDescription( productDto.getDescription() );
+        product.setImgUrl( productDto.getImgUrl() );
+        product.setCreatedAt( productDto.getCreatedAt() );
+        return productService.save(product);
     }
 
     @GetMapping("/{id}")
@@ -37,11 +43,16 @@ public class ProductController {
     @PutMapping( "/{id}" )
     public Product update( @RequestBody ProductDto productDto, @PathVariable Integer id )
     {
-        Optional<Product> product  = productService.findById( id );
-        product.setName( productDto.getName() );
-        product.setDescription( productDto.getDescription() );
-        product.setImageUrl( productDto.getImgUrl() );
-        return productService.save( product );
+        Optional<Product> productOptional  = productService.findById( id );
+        if(!productOptional.isPresent()){
+            return null;
+        }
+        Product product = productOptional.get();
+            product.setName(productDto.getName());
+            product.setDescription(productDto.getDescription());
+            product.setImgUrl(productDto.getImgUrl());
+            product.setCreatedAt(productDto.getCreatedAt());
+            return productService.save(product);
     }
 
     @DeleteMapping( "/{id}" )

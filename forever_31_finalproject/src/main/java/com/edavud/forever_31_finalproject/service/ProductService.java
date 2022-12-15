@@ -16,7 +16,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product save(Optional<Product> product )
+    public Product save(Product product )
     {
 
         return productRepository.save(product);
@@ -40,4 +40,6 @@ public class ProductService {
 
         return productRepository.findById(productId);
     }
+
+
 }
